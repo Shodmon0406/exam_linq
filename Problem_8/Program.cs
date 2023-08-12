@@ -1,4 +1,4 @@
-﻿var customers = new List<Customer>
+var customers = new List<Customer>
 {
     new Customer { CustomerId = 1, Name = "Alice" },
     new Customer { CustomerId = 2, Name = "Bob" },
@@ -16,12 +16,25 @@ var orders = new List<Order>
 
 var result = (from o in orders
     join c in customers on o.CustomerId equals c.CustomerId
-    group o by c.Name
+    group o by o.CustomerId
     into cus
     orderby cus.Sum(order => order.Amount) descending 
     select new
     {
-        Customer = cus.Key,
+        CustomerId = customers[cus.Key - 1].Name,
         SumAmount = cus.Sum(order => order.Amount)
     }).Take(2).ToList();
 result.ForEach(Console.WriteLine);
+
+
+// da ija be joinam meshava
+/*var result = (from o in orders
+    group o by o.CustomerId
+    into cus
+    orderby cus.Sum(order => order.Amount) descending 
+    select new
+    {
+        CustomerId = cus.Key,
+        SumAmount = cus.Sum(order => order.Amount)
+    }).Take(2).ToList();
+result.ForEach(Console.WriteLine);*/
