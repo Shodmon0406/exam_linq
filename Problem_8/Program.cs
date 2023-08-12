@@ -21,7 +21,7 @@ var result = (from o in orders
     orderby cus.Sum(order => order.Amount) descending 
     select new
     {
-        CustomerId = cus.Key,
+        Customer = cus.Key,
         SumAmount = cus.Sum(order => order.Amount)
     }).Take(2).ToList();
 result.ForEach(Console.WriteLine);
